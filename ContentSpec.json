@@ -1,0 +1,214 @@
+{
+	"metaData": {
+		"applicationStartPage": "page_load",
+		"startPage": "page_load",
+		"startupActions": [
+            {
+			"action": "loadScriptAction",
+			"data": {
+				"src": "moreBorg.js"
+			},
+			"trigger": "now",
+			"target": "#jsBridge"
+		},
+            {
+			"action": "loadScriptAction",
+			"data": {
+				"src": "roauth.js"
+			},
+			"debug": true,
+			"trigger": "now",
+			"target": "#jsBridge"
+		},
+        {
+			"//action": "#spawn",
+			"trigger": "now",
+			"data": {
+				"overlayId": "0perator",
+				"type": "button",
+				"text": "exit",
+				"font": "Futura-CondensedExtraBold",
+				"cgButtonColor": "#000000",
+				"cgButtonPressedColor": "#ff0000",
+				"cgUseInteriorBorder": false,
+				"borderWidth": "0px",
+				"fontColor": "#00CC00",
+				"size": "1.25ems",
+				"height": "50px",
+				"width": "100px",
+				"x": "96%",
+				"y": "5%",
+				"relative": "screen",
+				"persistence": "application-permanent",
+				"onTap": "borg.exit();"
+			}
+		}
+        ]
+	},
+	"screenSupport": {
+		"screens": [
+            {
+			"fonts": [
+                    {
+				"fontName": "georgia",
+				"fontSize": 14,
+				"name": "Normal"
+			}
+                ],
+			"height": 1024,
+			"orientation": "Portraint",
+			"suffix": "",
+			"width": 768
+		}
+        ],
+		"useScreenRatio": true
+	},
+
+	"pageSets": {
+		"pageSet": {
+			"pages": [
+                "page_load"
+            ]
+		}
+	},
+
+	"animations": {
+		"fadeIn": {
+			"type": "animation",
+			"properties": [
+                {
+				"property": "alpha",
+				"animationFunction": "EaseInOut",
+				"fromValue": 0,
+				"toValue": 1,
+				"duration": 0.5
+			}
+            ]
+		},
+		"fadeOut": {
+			"type": "animation",
+			"properties": [
+                {
+				"property": "alpha",
+				"animationFunction": "EaseInOut",
+				"fromValue": 1,
+				"toValue": 0,
+				"duration": 0.5
+			}
+            ]
+		}
+	},
+	"overlays": {
+		"roauth_btn_login": {
+			"type": "button",
+			"relative": "screen",
+			"text": " login ",
+			"y": "40%",
+			"onTap": "roauth.login();"
+		},
+		"roauth_btn_calendar_get": {
+			"type": "button",
+			"relative": "screen",
+			"text": " calendar_get ",
+			"y": "95%",
+			"onTap": "roauth.calendar_get();"
+		},
+		"roauth_btn_contacts_get": {
+			"type": "button",
+			"relative": "screen",
+			"text": " contacts_get ",
+			"y": "95%",
+			"x": "60%",
+			"onTap": "moreBorg.close('driveFilesContainer'); moreBorg.spawn('spinner'); roauth.contacts_get();"
+		},
+		"roauth_btn_driveFiles_get": {
+			"type": "button",
+			"relative": "screen",
+			"text": " driveFiles_get ",
+			"y": "95%",
+			"x": "40%",
+			"onTap": "moreBorg.close('driveFilesContainer'); moreBorg.spawn('spinner'); roauth.driveFiles_get();"
+		},
+		"roauth_btn_userInfo_get": {
+			"type": "button",
+			"relative": "screen",
+			"text": " userInfo_get ",
+			"y": "60%",
+			"onTap": "roauth.userInfo_get();"
+		},
+		"roauth_btn_logout": {
+			"type": "button",
+			"relative": "screen",
+			"text": " logout ",
+			"x": "95%",
+			"y": "3%",
+			"onTap": "roauth.logout();"
+		},
+		"roauth_txt_userName": {
+			"type": "text",
+			"relative": "screen",
+			"font": "Thonburi-Bold",
+			"size": "1.5ems",
+			"fontColor": "#2889D7",
+			"y": "5%",
+			"height": "50px",
+			"width": "500px",
+			"textAlign": "center"
+		},
+		"spinner": {
+			"type": "spinner",
+			"relative": "screen"
+		}
+	},
+	"pages": {
+		"page_load": {
+			"backgroundColor": "#000000"
+		},
+		"page_login": {
+			"overlays": [
+            {
+				"overlayId": "roauth_btn_login"
+			}
+            ],
+			"backgroundColor": "#265e7f"
+		},
+		"page_viewStuff": {
+			"overlays": [
+            {
+				"overlayId": "roauth_txt_userName",
+				"actions": [
+                {
+					"action": "runScriptAction",
+					"target": "#jsBridge",
+					"trigger": "now",
+					"data": {
+						"script": "borg.setText('roauth_txt_userName', 'Google OAuth for '+roauth.userInfo.email);"
+					}
+				},
+                {
+					"action": "runScriptAction",
+					"target": "#jsBridge",
+					"trigger": "now",
+					"data": {
+						"script": "roauth.contacts_get();"
+					}
+				}
+                ]
+			},
+            {
+				"overlayId": "roauth_btn_logout"
+			},
+            {
+				"overlayId": "roauth_btn_contacts_get"
+			},
+            {
+				"overlayId": "roauth_btn_driveFiles_get"
+			},
+            {
+				"overlayId": "spinner"
+			}
+            ],
+			"backgroundColor": "#FDF6E1"
+		}
+	}
+}
